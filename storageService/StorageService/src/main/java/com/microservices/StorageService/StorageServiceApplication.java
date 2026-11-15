@@ -1,15 +1,15 @@
+
 package com.microservices.StorageService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
-@ConfigurationProperties(prefix = "storage")
+@ConfigurationPropertiesScan
 public class StorageServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(StorageServiceApplication.class, args);
 	}
-
 }

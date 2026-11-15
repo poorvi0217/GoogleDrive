@@ -18,7 +18,7 @@ public class DriveItem {
     @Column(nullable = false)
     private String name;
 
-    private UUID parentID;
+    private UUID parentId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -39,10 +39,10 @@ public class DriveItem {
 
     protected DriveItem(){}
 
-    public DriveItem(String name  , UUID parentID , Kind kind , Long size , String mediaPlayer){
+    public DriveItem(String name  , UUID parentId , Kind kind , Long size , String mediaPlayer){
         this.id = UUID.randomUUID();
         this.name= name;
-        this.parentID = parentID;
+        this.parentId = parentId;
         this.size = size;
         this.mediaPlayer = mediaPlayer;
         this.status = kind == Kind.FOLDER ? Status.READY : Status.PENDING;
@@ -65,12 +65,12 @@ public class DriveItem {
         this.name = name;
     }
 
-    public UUID getParentID() {
-        return parentID;
+    public UUID getParentId() {
+        return parentId;
     }
 
-    public void setParentID(UUID parentID) {
-        this.parentID = parentID;
+    public void setParentID(UUID parentId) {
+        this.parentId = parentId;
     }
 
     public Status getStatus() {
