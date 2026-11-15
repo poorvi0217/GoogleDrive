@@ -1,8 +1,8 @@
 package com.microservices.StorageService.repo;
 
 import com.microservices.StorageService.config.StorageProperties;
-import jakarta.annotation.Resource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,26 +21,30 @@ public class DataStore {
     private final Path root;
 
     public DataStore(StorageProperties properties) throws IOException {
-        root= Path.of(properties.directory()).toAbsolutePath().normalize();
+        root=Path.of(properties.directory()).toAbsolutePath().normalize();
         Files.createDirectories(root);
     }
 
-    public void put(UUID id , InputStream input ) throws IOException{
-        Path temporary = Files.createTempFile(root, "upload","temp");
-        try{
-            Files.copy(input, temporary , StandardCopyOption.REPLACE_EXISTING);
-            Files.move(temporary , root.resolve(id.toString()),StandardCopyOption.REPLACE_EXISTING);
+    public void put(UUID id, InputStream input) throws IOException
+    {
+        Path temporary = Files.createTempFile(root,"upload-","temp");
+        try
+        {
+            Files.copy(input,temporary, StandardCopyOption.REPLACE_EXISTING);
+            Files.move(temporary,root.resolve(id.toString()),StandardCopyOption.REPLACE_EXISTING);
         }
         finally {
             Files.deleteIfExists(temporary);
         }
     }
 
-    public Resource get(UUID id){
-        Path path= root.resolve(id.toString());
+
+    public Resource get(UUID id)
+    {
+        Path path=root.resolve(id.toString());
         if(!Files.isRegularFile(path))
         {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"content not found");
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND,"content not found");
         }
         return new FileSystemResource(path);
     }
